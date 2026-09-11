@@ -1,1 +1,703 @@
-# flowa-base-desafio-devops
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Landing page do Desafio Técnico Flowa LABS — documentação interativa para os repositórios infra-terraform e app-dotnet-service."
+    />
+    <title>Flowa LABS · Desafio Técnico Engenharia/SRE</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              flowa: {
+                forest: '#09140e',
+                deep: '#0f2118',
+                card: '#102717',
+                border: '#16452b',
+                neon: '#b0ff4c',
+                neonHover: '#c4ff7a',
+                violet: '#b279ff',
+                text: '#e3f2ff',
+                muted: '#9ab6cf',
+                cyan: '#21d4ff',
+              },
+            },
+            fontFamily: {
+              mono: ['"Space Mono"', 'monospace'],
+              sans: ['Inter', 'system-ui', 'sans-serif'],
+            },
+            boxShadow: {
+              glow: '0 0 45px rgba(176,255,76,0.45)',
+              holo: '0 15px 80px rgba(33,212,255,0.25)',
+            },
+            animation: {
+              pulseSlow: 'pulse 5s ease-in-out infinite',
+              scan: 'scan 8s linear infinite',
+            },
+          },
+        },
+      };
+    </script>
+    <!-- Alpine.js for interatividade -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+    <!-- Lucide Icons -->
+    <script defer src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+
+      body {
+        font-family: 'Inter', system-ui, sans-serif;
+        background-color: #050a07;
+        min-height: 100vh;
+      }
+
+      .neon-grid::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+          linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        background-size: 80px 80px;
+        pointer-events: none;
+      }
+
+      .scanlines::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(transparent 95%, rgba(255, 255, 255, 0.03) 95%);
+        background-size: 100% 3px;
+        opacity: 0.2;
+        pointer-events: none;
+        animation: scan 10s linear infinite;
+      }
+
+      .holo-card {
+        background: linear-gradient(135deg, rgba(18, 34, 27, 0.9), rgba(15, 30, 24, 0.95));
+        border: 1px solid rgba(164, 244, 87, 0.2);
+        box-shadow: 0 0 0 1px rgba(164, 244, 87, 0.08) inset, 0 25px 45px rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(18px);
+      }
+
+      .holo-card::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        border: 1px solid rgba(33, 212, 255, 0.08);
+        pointer-events: none;
+      }
+
+      .radar-glow {
+        position: absolute;
+        inset: -50%;
+        background: radial-gradient(circle at 20% 20%, rgba(176, 255, 76, 0.25), transparent 55%),
+          radial-gradient(circle at 80% 10%, rgba(162, 88, 255, 0.3), transparent 50%),
+          radial-gradient(circle at 50% 80%, rgba(33, 212, 255, 0.25), transparent 60%);
+        filter: blur(80px);
+        opacity: 0.8;
+        pointer-events: none;
+      }
+
+      @keyframes scan {
+        0% {
+          transform: translateY(-100%);
+        }
+        100% {
+          transform: translateY(100%);
+        }
+      }
+    </style>
+  </head>
+
+  <body class="relative bg-flowa-forest text-flowa-text">
+    <div class="neon-grid scanlines"></div>
+    <div class="radar-glow"></div>
+
+    <div class="relative z-10 space-y-16">
+      <!-- Fixed header navigation -->
+      <header
+        class="fixed inset-x-0 top-0 z-50 border-b border-flowa-border/40 bg-gradient-to-r from-flowa-deep/80 via-flowa-card/70 to-flowa-deep/80 backdrop-blur-2xl"
+      >
+      <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+        <div class="flex items-center gap-3 font-mono text-sm uppercase tracking-[0.4em] text-flowa-muted">
+          <div class="flex items-center gap-2 text-white">
+            <span class="text-2xl font-bold">flowa</span>
+            <span class="rounded-full border border-flowa-border/70 px-3 py-1 text-xs text-flowa-muted">
+              LABS
+            </span>
+          </div>
+          <span class="hidden text-flowa-muted sm:inline">Desafio Técnico · Engenharia / SRE</span>
+        </div>
+        <nav class="hidden items-center gap-4 text-xs font-semibold tracking-[0.3em] text-flowa-muted md:flex">
+          <a href="#sumario" class="transition hover:text-flowa-neon">Sumário</a>
+          <a href="#repos" class="transition hover:text-flowa-neon">Repositórios</a>
+          <a href="#glossario" class="transition hover:text-flowa-neon">Glossário</a>
+          <a href="#timeline" class="transition hover:text-flowa-neon">Execução</a>
+          <a href="#aws" class="transition hover:text-flowa-neon">AWS</a>
+        </nav>
+        <a
+          href="#aws"
+          class="inline-flex items-center gap-2 rounded-full border border-flowa-cyan/40 bg-flowa-deep px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-flowa-cyan shadow-holo transition hover:border-flowa-cyan hover:text-white"
+        >
+          <i data-lucide="cloud" class="h-4 w-4"></i>
+          AWS · Dashboards
+        </a>
+      </div>
+    </header>
+
+    <main class="mx-auto flex max-w-6xl flex-col gap-24 px-6 pb-24 pt-32">
+      <!-- Hero -->
+      <section id="hero" class="relative overflow-hidden rounded-[32px] border border-flowa-border/60 bg-flowa-deep/70 p-10 text-left shadow-holo">
+        <div class="absolute inset-0 opacity-40">
+          <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(176,255,76,0.2),_transparent_50%)]"></div>
+          <div class="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,_rgba(178,121,255,0.25),_transparent_60%)]"></div>
+          <div class="absolute inset-0 bg-[linear-gradient(120deg,_rgba(33,212,255,0.08),_transparent)]"></div>
+        </div>
+        <div class="relative grid gap-12 lg:grid-cols-[1.05fr,0.95fr]">
+          <div>
+            <p class="font-mono text-xs uppercase tracking-[0.6em] text-flowa-muted">Flowa · Reliability First</p>
+            <h1 class="mt-6 font-mono text-4xl leading-tight text-white md:text-5xl">
+              Documentação viva para um ecossistema cloud autônomo, seguro e observável.
+            </h1>
+            <p class="mt-6 text-lg text-flowa-muted">
+              Infraestrutura Terraform opinativa, deploys orquestrados em EKS e uma API .NET 8 otimizada para
+              baixa latência. Tudo guiado por telemetria em tempo real e playbooks claros para o time Flowa.
+            </p>
+            <div class="mt-8 flex flex-wrap gap-4">
+              <a
+                href="#repos"
+                class="inline-flex items-center gap-3 rounded-full border border-flowa-neon bg-flowa-neon px-6 py-3 font-semibold text-flowa-forest transition hover:bg-flowa-neonHover"
+              >
+                Explorar Repositórios
+                <i data-lucide="arrow-right" class="h-4 w-4"></i>
+              </a>
+              <a
+                href="#timeline"
+                class="inline-flex items-center gap-3 rounded-full border border-flowa-border px-6 py-3 font-semibold text-white transition hover:border-flowa-cyan hover:text-flowa-cyan"
+              >
+                Plano de Execução
+              </a>
+            </div>
+            <div class="mt-10 grid gap-4 sm:grid-cols-3">
+              <div class="relative rounded-2xl border border-flowa-border/70 bg-flowa-card/60 p-4">
+                <p class="text-xs font-mono uppercase tracking-[0.3em] text-flowa-muted">Success Rate</p>
+                <p class="mt-2 text-3xl font-bold text-white">98.7%</p>
+                <p class="text-xs text-flowa-muted">CI/CD com gates de qualidade</p>
+              </div>
+              <div class="relative rounded-2xl border border-flowa-border/70 bg-flowa-card/60 p-4">
+                <p class="text-xs font-mono uppercase tracking-[0.3em] text-flowa-muted">Deploy Médio</p>
+                <p class="mt-2 text-3xl font-bold text-white">2.4s</p>
+                <p class="text-xs text-flowa-muted">Average rollout step</p>
+              </div>
+              <div class="relative rounded-2xl border border-flowa-border/70 bg-flowa-card/60 p-4">
+                <p class="text-xs font-mono uppercase tracking-[0.3em] text-flowa-muted">Tasks</p>
+                <p class="mt-2 text-3xl font-bold text-white">1,482</p>
+                <p class="text-xs text-flowa-muted">Automação Bitbucket + Argo</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="relative">
+            <div class="absolute -inset-6 rounded-[30px] border border-flowa-cyan/10 bg-flowa-deep/60 blur-3xl"></div>
+            <div class="relative overflow-hidden rounded-[24px] border border-flowa-border/70 bg-[#040b08] p-6 text-xs text-flowa-muted shadow-2xl">
+              <div class="flex flex-wrap items-center gap-4 text-flowa-muted">
+                <div>
+                  <p class="text-[10px] uppercase tracking-[0.4em]">AI WORKFLOWS</p>
+                  <p class="text-2xl font-semibold text-white">Pipeline Híbrido Flowa</p>
+                </div>
+                <span class="rounded-full border border-flowa-violet/50 px-3 py-1 text-[10px] text-flowa-violet">Realtime</span>
+              </div>
+              <div class="mt-6 grid gap-4 sm:grid-cols-3">
+                <div>
+                  <p class="text-[10px] uppercase tracking-[0.4em]">Active Agents</p>
+                  <p class="text-2xl font-bold text-flowa-cyan">24</p>
+                </div>
+                <div>
+                  <p class="text-[10px] uppercase tracking-[0.4em]">Success</p>
+                  <p class="text-2xl font-bold text-flowa-neon">98.7%</p>
+                </div>
+                <div>
+                  <p class="text-[10px] uppercase tracking-[0.4em]">Latency</p>
+                  <p class="text-2xl font-bold text-white">42ms</p>
+                </div>
+              </div>
+              <div class="mt-6 rounded-2xl border border-flowa-border/50 bg-flowa-deep/70 p-4">
+                <p class="text-[10px] uppercase tracking-[0.4em] text-flowa-muted">Workflow Execution Map</p>
+                <div class="mt-4 grid gap-6 text-center text-[11px] text-flowa-muted sm:grid-cols-5">
+                  <div class="space-y-2">
+                    <div class="mx-auto h-10 w-10 rounded-full border border-flowa-cyan/60 bg-flowa-card/70 text-flowa-cyan">IaC</div>
+                    <p>Terraform</p>
+                  </div>
+                  <div class="space-y-2">
+                    <div class="mx-auto h-10 w-10 rounded-full border border-flowa-neon/60 bg-flowa-card/70 text-flowa-neon">EKS</div>
+                    <p>Cluster</p>
+                  </div>
+                  <div class="space-y-2">
+                    <div class="mx-auto h-10 w-10 rounded-full border border-flowa-violet/60 bg-flowa-card/70 text-flowa-violet">API</div>
+                    <p>.NET 8</p>
+                  </div>
+                  <div class="space-y-2">
+                    <div class="mx-auto h-10 w-10 rounded-full border border-flowa-cyan/60 bg-flowa-card/70 text-flowa-cyan">OTEL</div>
+                    <p>Tracing</p>
+                  </div>
+                  <div class="space-y-2">
+                    <div class="mx-auto h-10 w-10 rounded-full border border-flowa-neon/60 bg-flowa-card/70 text-flowa-neon">SLO</div>
+                    <p>Dashboards</p>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-6 grid gap-4 md:grid-cols-2">
+                <div class="rounded-2xl border border-flowa-border/50 bg-flowa-deep/70 p-4">
+                  <p class="text-[10px] uppercase tracking-[0.4em] text-flowa-muted">Real-time Activity</p>
+                  <div class="mt-3 h-20 w-full bg-gradient-to-r from-flowa-cyan/30 via-flowa-violet/40 to-flowa-neon/30"></div>
+                </div>
+                <div class="rounded-2xl border border-flowa-border/50 bg-flowa-deep/70 p-4">
+                  <p class="text-[10px] uppercase tracking-[0.4em] text-flowa-muted">Performance Metrics</p>
+                  <div class="mt-3 flex items-center justify-between text-[10px] uppercase tracking-[0.3em]">
+                    <span>CPU 67%</span>
+                    <span>Memory 72%</span>
+                    <span>Error 0.7%</span>
+                  </div>
+                  <div class="mt-2 h-1.5 rounded-full bg-flowa-border/40">
+                    <div class="h-full w-3/4 rounded-full bg-gradient-to-r from-flowa-violet to-flowa-neon"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sumário interativo -->
+      <section id="sumario" class="relative overflow-hidden rounded-[32px] border border-flowa-border/70 bg-flowa-card/70 p-8">
+        <div class="absolute inset-0 opacity-40">
+          <div class="absolute inset-0 bg-[radial-gradient(circle_at_left,_rgba(33,212,255,0.15),_transparent_55%)]"></div>
+          <div class="absolute inset-0 bg-[radial-gradient(circle_at_right,_rgba(178,121,255,0.15),_transparent_60%)]"></div>
+        </div>
+        <div class="relative mb-6 flex items-center justify-between">
+          <div>
+            <p class="font-mono text-xs uppercase tracking-[0.5em] text-flowa-muted">HUD · Mapeamento rápido</p>
+            <h2 class="mt-2 font-mono text-2xl text-white">Sumário Interativo</h2>
+          </div>
+          <span class="rounded-full border border-flowa-cyan/40 px-4 py-1 text-sm text-flowa-cyan">
+            Scroll assistido ativo
+          </span>
+        </div>
+        <div class="relative grid gap-4 md:grid-cols-3">
+          <a href="#repos" class="group rounded-2xl border border-flowa-border/60 bg-flowa-deep/70 p-6 transition hover:border-flowa-neon hover:shadow-glow">
+            <div class="flex items-center gap-3">
+              <i data-lucide="layers" class="h-5 w-5 text-flowa-neon"></i>
+              <p class="font-mono text-sm uppercase tracking-[0.4em] text-flowa-muted">Repositórios</p>
+            </div>
+            <p class="mt-3 text-lg font-semibold text-white group-hover:text-flowa-neon">Infra e App sincronizados em IaC + CI/CD</p>
+          </a>
+          <a href="#glossario" class="group rounded-2xl border border-flowa-border/60 bg-flowa-deep/70 p-6 transition hover:border-flowa-neon hover:shadow-glow">
+            <div class="flex items-center gap-3">
+              <i data-lucide="book-open-check" class="h-5 w-5 text-flowa-violet"></i>
+              <p class="font-mono text-sm uppercase tracking-[0.4em] text-flowa-muted">Glossário</p>
+            </div>
+            <p class="mt-3 text-lg font-semibold text-white group-hover:text-flowa-violet">Conceitos traduzidos para decisores e SREs</p>
+          </a>
+          <a href="#aws" class="group rounded-2xl border border-flowa-border/60 bg-flowa-deep/70 p-6 transition hover:border-flowa-neon hover:shadow-glow">
+            <div class="flex items-center gap-3">
+              <i data-lucide="activity" class="h-5 w-5 text-flowa-cyan"></i>
+              <p class="font-mono text-sm uppercase tracking-[0.4em] text-flowa-muted">Observabilidade</p>
+            </div>
+            <p class="mt-3 text-lg font-semibold text-white group-hover:text-flowa-cyan">KPIs, dashboards e guias AWS</p>
+          </a>
+        </div>
+      </section>
+
+        <!-- Repositórios com abas -->
+      <section id="repos" class="rounded-[32px] border border-flowa-border/60 bg-flowa-card/80 p-8 shadow-holo">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <p class="font-mono text-xs uppercase tracking-[0.5em] text-flowa-muted">Console · Repositórios</p>
+            <h2 class="mt-2 font-mono text-3xl text-white">Entrega técnica destacada</h2>
+          </div>
+          <div class="flex items-center gap-3 rounded-full border border-flowa-border/60 px-4 py-2 text-xs font-semibold tracking-[0.3em] text-flowa-muted">
+            <i data-lucide="shield" class="h-4 w-4 text-flowa-neon"></i>
+            Bitbucket Pipelines · OK
+          </div>
+        </div>
+
+          <div
+            class="mt-10 grid gap-8 lg:grid-cols-[340px,1fr]"
+            x-data="repoTabs()"
+            x-init="fetchReadme(activeTab)"
+          >
+            <div class="space-y-4">
+              <button
+                @click="switchTab('infra')"
+                :class="activeTab === 'infra' ? 'border-flowa-neon/70 bg-flowa-deep/80 shadow-glow' : 'border-flowa-border/70 bg-flowa-deep/40'"
+                class="w-full rounded-2xl border px-6 py-5 text-left transition"
+              >
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="font-mono text-xs uppercase tracking-[0.4em] text-flowa-muted">IaC Core</p>
+                    <h3 class="text-2xl font-semibold text-white">infra-terraform</h3>
+                  </div>
+                  <i data-lucide="terminal" class="h-5 w-5 text-flowa-neon"></i>
+                </div>
+                <p class="mt-3 text-sm text-flowa-muted">
+                  Módulos reutilizáveis para VPC, Subnets, EKS com IRSA e observabilidade by default.
+                </p>
+                <div class="mt-4 flex items-center gap-2 text-xs font-semibold text-flowa-neon">
+                  <span class="inline-flex items-center gap-1 rounded-full border border-flowa-neon/50 px-3 py-1">
+                    <span class="h-2 w-2 rounded-full bg-lime-400"></span>
+                    Pipeline: Passing
+                  </span>
+                </div>
+              </button>
+
+              <button
+                @click="switchTab('app')"
+                :class="activeTab === 'app' ? 'border-flowa-violet/70 bg-flowa-deep/80 shadow-glow' : 'border-flowa-border/70 bg-flowa-deep/40'"
+                class="w-full rounded-2xl border px-6 py-5 text-left transition"
+              >
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="font-mono text-xs uppercase tracking-[0.4em] text-flowa-muted">Serviço API</p>
+                    <h3 class="text-2xl font-semibold text-white">app-dotnet-service</h3>
+                  </div>
+                  <i data-lucide="code-xml" class="h-5 w-5 text-flowa-neon"></i>
+                </div>
+                <p class="mt-3 text-sm text-flowa-muted">
+                  Web API .NET 8 containerizada com health-checks, OpenTelemetry e manifests K8s GitOps.
+                </p>
+                <div class="mt-4 flex items-center gap-2 text-xs font-semibold text-flowa-neon">
+                  <span class="inline-flex items-center gap-1 rounded-full border border-flowa-violet/50 px-3 py-1 text-flowa-violet">
+                    <span class="h-2 w-2 rounded-full bg-flowa-violet"></span>
+                    Release: Canary 50%
+                  </span>
+                </div>
+              </button>
+            </div>
+
+            <div class="rounded-3xl border border-flowa-border/70 bg-[#07110c] p-6">
+              <div class="flex flex-wrap items-center gap-4">
+                <div>
+                  <p class="font-mono text-xs uppercase tracking-[0.4em] text-flowa-muted">Detalhes</p>
+                  <h3 class="text-xl font-semibold text-white" x-text="activeTab === 'infra' ? 'Terraform · Foundation' : '.NET 8 · API'">
+                    Terraform · Foundation
+                  </h3>
+                </div>
+                <button
+                  @click="fetchReadme(activeTab)"
+                  class="inline-flex items-center gap-2 rounded-full border border-flowa-border px-4 py-2 text-xs font-semibold text-white transition hover:border-flowa-neon"
+                >
+                  <i data-lucide="download" class="h-4 w-4"></i>
+                  Sincronizar README.md
+                </button>
+              </div>
+
+              <p class="mt-4 text-sm text-flowa-muted">
+                Conteúdo renderizado diretamente do Bitbucket (raw). Ideal para revisores acompanharem commits
+                mais recentes sem sair da página.
+              </p>
+
+              <div class="mt-6 rounded-2xl border border-flowa-border/80 bg-black/30 p-4 font-mono text-xs text-flowa-text">
+                <template x-if="loading">
+                  <div class="flex items-center gap-3 text-flowa-neon">
+                    <svg class="h-5 w-5 animate-spin" viewBox="0 0 24 24">
+                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                    </svg>
+                    Carregando conteúdo…
+                  </div>
+                </template>
+
+                <template x-if="!loading && error">
+                  <div class="text-flowa-violet">
+                    <p class="font-semibold">Falha ao carregar.</p>
+                    <p class="mt-1" x-text="error"></p>
+                  </div>
+                </template>
+
+                <template x-if="!loading && !error">
+                  <pre class="whitespace-pre-wrap" x-text="content[activeTab]"></pre>
+                </template>
+              </div>
+
+              <div class="mt-6 grid gap-4 md:grid-cols-2">
+                <div class="rounded-2xl border border-flowa-border/60 bg-flowa-card/60 p-4">
+                  <p class="font-mono text-xs uppercase tracking-[0.4em] text-flowa-muted">Principais capacidades</p>
+                  <ul class="mt-3 space-y-2 text-sm text-flowa-text" x-show="activeTab === 'infra'">
+                    <li>· Provisionamento idempotente de VPC, subnets privadas e públicas.</li>
+                    <li>· EKS com IRSA e addons essenciais (Cluster Autoscaler, ExternalDNS).</li>
+                    <li>· Pipelines Bitbucket com validação terraform fmt + tfsec.</li>
+                  </ul>
+                  <ul class="mt-3 space-y-2 text-sm text-flowa-text" x-show="activeTab === 'app'">
+                    <li>· Web API .NET 8 com Minimal APIs e validação FluentValidation.</li>
+                    <li>· Dockerfile multi-stage + manifests Helm/Kustomize para deploy.</li>
+                    <li>· Observabilidade via OpenTelemetry + traces distribuídos.</li>
+                  </ul>
+                </div>
+                <div class="rounded-2xl border border-flowa-border/60 bg-flowa-card/60 p-4">
+                  <p class="font-mono text-xs uppercase tracking-[0.4em] text-flowa-muted">Quick actions</p>
+                  <div class="mt-3 flex flex-wrap gap-3 text-sm">
+                    <a
+                      href="https://bitbucket.org/"
+                      target="_blank"
+                      class="inline-flex items-center gap-2 rounded-full border border-flowa-neon px-4 py-2 text-flowa-neon transition hover:bg-flowa-neon hover:text-flowa-forest"
+                    >
+                      <i data-lucide="external-link" class="h-4 w-4"></i>
+                      Abrir repositório
+                    </a>
+                    <button
+                      @click="copyClone(activeTab)"
+                      class="inline-flex items-center gap-2 rounded-full border border-flowa-border px-4 py-2 text-white transition hover:border-flowa-neon"
+                    >
+                      <i data-lucide="copy" class="h-4 w-4"></i>
+                      Copiar git clone
+                    </button>
+                  </div>
+                  <p class="mt-3 text-xs text-flowa-muted" x-text="cloneFeedback"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Glossário -->
+        <section id="glossario" class="rounded-3xl border border-flowa-border bg-flowa-card/70 p-8 shadow-2xl">
+          <p class="font-mono text-xs uppercase tracking-[0.5em] text-flowa-muted">Glossário essencial</p>
+          <h2 class="mt-3 font-mono text-3xl text-white">Tradução técnica rápida</h2>
+          <p class="mt-2 max-w-3xl text-flowa-muted">
+            Conceitos críticos explicados em linguagem neutra e orientada a resultados para facilitar
+            discussões entre engenharia, produto e executivos.
+          </p>
+          <div class="mt-8 grid gap-6 md:grid-cols-2">
+            <article class="rounded-2xl border border-flowa-border/70 bg-flowa-deep/60 p-6">
+              <div class="flex items-center gap-2 text-flowa-neon">
+                <i data-lucide="tree-deciduous" class="h-5 w-5"></i>
+                <p class="font-mono text-xs uppercase tracking-[0.4em]">Infrastructure as Code</p>
+              </div>
+              <p class="mt-3 text-lg font-semibold text-white">Terraform como fonte única de verdade</p>
+              <p class="mt-2 text-sm text-flowa-muted">
+                Todo recurso AWS é rastreável em Git, com validações automáticas e revisão de pares.
+                Facilita auditorias e acelera rollbacks.
+              </p>
+            </article>
+            <article class="rounded-2xl border border-flowa-border/70 bg-flowa-deep/60 p-6">
+              <div class="flex items-center gap-2 text-flowa-neon">
+                <i data-lucide="waves" class="h-5 w-5"></i>
+                <p class="font-mono text-xs uppercase tracking-[0.4em]">Kubernetes Orchestration</p>
+              </div>
+              <p class="mt-3 text-lg font-semibold text-white">EKS com canary e pod disruption budget</p>
+              <p class="mt-2 text-sm text-flowa-muted">
+                Releases graduais 10 → 50 → 100% com rollback automático se error rate > 1% ou latência p95 > 45 ms.
+              </p>
+            </article>
+            <article class="rounded-2xl border border-flowa-border/70 bg-flowa-deep/60 p-6">
+              <div class="flex items-center gap-2 text-flowa-neon">
+                <i data-lucide="git-branch" class="h-5 w-5"></i>
+                <p class="font-mono text-xs uppercase tracking-[0.4em]">CI/CD Pipelines</p>
+              </div>
+              <p class="mt-3 text-lg font-semibold text-white">Bitbucket Pipelines + GitOps</p>
+              <p class="mt-2 text-sm text-flowa-muted">
+                Checks obrigatórios: lint, testes 80%+, SAST/@devsecops-staff e deploy automatizado via Argo.
+              </p>
+            </article>
+            <article class="rounded-2xl border border-flowa-border/70 bg-flowa-deep/60 p-6">
+              <div class="flex items-center gap-2 text-flowa-neon">
+                <i data-lucide="radar" class="h-5 w-5"></i>
+                <p class="font-mono text-xs uppercase tracking-[0.4em]">Observabilidade & SLOs</p>
+              </div>
+              <p class="mt-3 text-lg font-semibold text-white">Stack Grafana, CloudWatch e OTEL</p>
+              <p class="mt-2 text-sm text-flowa-muted">
+                Logs estruturados, métricas custom e traces permitem RCA em minutos, alinhados a SLO 99.95% uptime.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <!-- Timeline -->
+        <section id="timeline" class="rounded-[32px] border border-flowa-border/70 bg-flowa-card/70 p-8 shadow-holo">
+          <div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <p class="font-mono text-xs uppercase tracking-[0.5em] text-flowa-muted">Execução guiada</p>
+              <h2 class="mt-2 font-mono text-3xl text-white">Linha do tempo operável</h2>
+            </div>
+            <span class="rounded-full border border-flowa-border/70 px-4 py-1 text-xs text-flowa-muted">
+              Tempo total estimado: 32 min
+            </span>
+          </div>
+          <ol class="mt-8 space-y-6">
+            <li class="relative rounded-2xl border border-flowa-border/60 bg-flowa-deep/70 p-6">
+              <div class="absolute -left-3 top-6 h-6 w-6 rounded-full border border-flowa-neon bg-flowa-forest"></div>
+              <p class="font-mono text-xs uppercase tracking-[0.4em] text-flowa-muted">01 · Pré-requisitos</p>
+              <p class="mt-2 text-xl font-semibold text-white">Clonar repositórios e configurar secrets</p>
+              <p class="mt-2 text-sm text-flowa-muted">
+                `git clone git@bitbucket.org:flowa/infra-terraform.git && git clone git@bitbucket.org:flowa/app-dotnet-service.git`
+              </p>
+            </li>
+            <li class="relative rounded-2xl border border-flowa-border/60 bg-flowa-deep/70 p-6">
+              <div class="absolute -left-3 top-6 h-6 w-6 rounded-full border border-flowa-neon bg-flowa-forest"></div>
+              <p class="font-mono text-xs uppercase tracking-[0.4em] text-flowa-muted">02 · Infraestrutura</p>
+              <p class="mt-2 text-xl font-semibold text-white">Provisionar com Terraform</p>
+              <p class="mt-2 text-sm text-flowa-muted">
+                `terraform init && terraform plan -var-file=envs/prod.tfvars && terraform apply`
+              </p>
+            </li>
+            <li class="relative rounded-2xl border border-flowa-border/60 bg-flowa-deep/70 p-6">
+              <div class="absolute -left-3 top-6 h-6 w-6 rounded-full border border-flowa-neon bg-flowa-forest"></div>
+              <p class="font-mono text-xs uppercase tracking-[0.4em] text-flowa-muted">03 · Aplicação</p>
+              <p class="mt-2 text-xl font-semibold text-white">Build & deploy da API</p>
+              <p class="mt-2 text-sm text-flowa-muted">
+                `dotnet test && dotnet publish -c Release`; Docker push & sync com Argo Rollouts.
+              </p>
+            </li>
+            <li class="relative rounded-2xl border border-flowa-border/60 bg-flowa-deep/70 p-6">
+              <div class="absolute -left-3 top-6 h-6 w-6 rounded-full border border-flowa-neon bg-flowa-forest"></div>
+              <p class="font-mono text-xs uppercase tracking-[0.4em] text-flowa-muted">04 · Verificação</p>
+              <p class="mt-2 text-xl font-semibold text-white">Smoke tests + Observabilidade</p>
+              <p class="mt-2 text-sm text-flowa-muted">
+                Executar collections Bruno/Postman, validar métricas no dashboard e confirmar SLOs.
+              </p>
+            </li>
+          </ol>
+        </section>
+
+        <!-- AWS & Observabilidade -->
+        <section id="aws" class="rounded-[32px] border border-flowa-border/70 bg-flowa-card/80 p-8 shadow-holo">
+          <div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <p class="font-mono text-xs uppercase tracking-[0.5em] text-flowa-muted">AWS · Dashboards</p>
+              <h2 class="mt-2 font-mono text-3xl text-white">Acesso rápido a métricas</h2>
+            </div>
+            <a
+              href="https://console.aws.amazon.com/"
+              target="_blank"
+              class="inline-flex items-center gap-2 rounded-full border border-flowa-neon bg-flowa-neon px-5 py-2 text-sm font-semibold text-flowa-forest transition hover:bg-flowa-neonHover"
+            >
+              Abrir Console AWS
+              <i data-lucide="arrow-up-right" class="h-4 w-4"></i>
+            </a>
+          </div>
+          <div class="mt-8 grid gap-6 md:grid-cols-3">
+            <div class="rounded-2xl border border-flowa-border/60 bg-flowa-deep/70 p-6">
+              <p class="font-mono text-xs uppercase tracking-[0.4em] text-flowa-muted">Uptime</p>
+              <p class="mt-3 text-4xl font-bold text-white">99.98%</p>
+              <p class="mt-2 text-sm text-flowa-muted">SLO mensal com alertas em 2 canais (PagerDuty + Teams).</p>
+            </div>
+            <div class="rounded-2xl border border-flowa-border/60 bg-flowa-deep/70 p-6">
+              <p class="font-mono text-xs uppercase tracking-[0.4em] text-flowa-muted">Latência p95</p>
+              <p class="mt-3 text-4xl font-bold text-white">&lt; 45 ms</p>
+              <p class="mt-2 text-sm text-flowa-muted">Verificado via CloudWatch + X-Ray distribuído.</p>
+            </div>
+            <div class="rounded-2xl border border-flowa-border/60 bg-flowa-deep/70 p-6">
+              <p class="font-mono text-xs uppercase tracking-[0.4em] text-flowa-muted">Error rate</p>
+              <p class="mt-3 text-4xl font-bold text-white">0.7%</p>
+              <p class="mt-2 text-sm text-flowa-muted">Alertas proativos antes de impactar usuários finais.</p>
+            </div>
+          </div>
+          <div class="mt-8 grid gap-6 md:grid-cols-2">
+            <article class="rounded-2xl border border-flowa-border/70 bg-flowa-deep/60 p-6">
+              <div class="flex items-center gap-2 text-flowa-neon">
+                <i data-lucide="monitor-check" class="h-5 w-5"></i>
+                <p class="font-mono text-xs uppercase tracking-[0.4em]">Dashboards sugeridos</p>
+              </div>
+              <ul class="mt-4 space-y-3 text-sm text-flowa-text">
+                <li>· Grafana: tracing de transações críticas + heatmaps de throughput.</li>
+                <li>· CloudWatch: logs estruturados com correlação de requestId.</li>
+                <li>· AWS X-Ray: mapa de serviço para RCA em minutos.</li>
+              </ul>
+            </article>
+            <article class="rounded-2xl border border-flowa-border/70 bg-flowa-deep/60 p-6">
+              <div class="flex items-center gap-2 text-flowa-neon">
+                <i data-lucide="radar" class="h-5 w-5"></i>
+                <p class="font-mono text-xs uppercase tracking-[0.4em]">Playbook rápido</p>
+              </div>
+              <ol class="mt-4 space-y-3 text-sm text-flowa-text list-decimal list-inside">
+                <li>Validar alarmes CloudWatch e métricas canary.</li>
+                <li>Executar `kubectl top pods` / `stern` para logs em tempo real.</li>
+                <li>Acionar @sre-staff se incidente ultrapassar 15 min.</li>
+              </ol>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="border-t border-flowa-border/40 bg-flowa-deep/70 py-8 text-center text-sm text-flowa-muted">
+        <p>© <span id="year"></span> Flowa LABS — Desafio Técnico Engenharia & SRE · Construído com Tailwind + Alpine + Lucide.</p>
+      </footer>
+    </div>
+
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      document.addEventListener('alpine:init', () => {
+        Alpine.data('repoTabs', () => ({
+          activeTab: 'infra',
+          loading: false,
+          error: '',
+          cloneFeedback: '',
+          endpoints: {
+            infra: 'https://bitbucket.org/raafacardoso/infra-terraform/raw/main/README.md',
+            app: 'https://bitbucket.org/raafacardoso/app-dotnet-service/raw/main/README.md',
+          },
+          content: {
+            infra: 'Outputs do Terraform, árvore de módulos e práticas de segurança serão carregados aqui.',
+            app: 'Detalhes de build .NET, dependências e configuração de observabilidade serão carregados aqui.',
+          },
+          switchTab(tab) {
+            if (this.activeTab === tab) return;
+            this.activeTab = tab;
+            if (!this.content[tab] || this.content[tab].includes('carregados')) {
+              this.fetchReadme(tab);
+            }
+          },
+          async fetchReadme(tab) {
+            this.loading = true;
+            this.error = '';
+            try {
+              const response = await fetch(this.endpoints[tab], { cache: 'no-store' });
+              if (!response.ok) {
+                throw new Error('Endpoint indisponível no momento. Verifique acessos públicos ou tokens.');
+              }
+              const text = await response.text();
+              this.content[tab] = text.slice(0, 2000) + (text.length > 2000 ? '\n... (conteúdo truncado)' : '');
+            } catch (err) {
+              this.error = err.message;
+              console.error('Falha ao buscar README:', err);
+            } finally {
+              this.loading = false;
+            }
+          },
+          async copyClone(tab) {
+            const command = `git clone git@bitbucket.org:flowa/${tab === 'infra' ? 'infra-terraform' : 'app-dotnet-service'}.git`;
+            try {
+              await navigator.clipboard.writeText(command);
+              this.cloneFeedback = 'Comando copiado com sucesso!';
+            } catch (error) {
+              this.cloneFeedback = 'Não foi possível copiar automaticamente, copie manualmente: ' + command;
+            }
+          },
+        }));
+      });
+
+      document.addEventListener('DOMContentLoaded', () => {
+        if (window.lucide) {
+          window.lucide.createIcons();
+        }
+      });
+    </script>
+  </body>
+</html>
