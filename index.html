@@ -180,8 +180,8 @@
               Documentação viva para um ecossistema cloud autônomo, seguro e observável.
             </h1>
             <p class="mt-6 text-lg text-flowa-muted">
-              Infraestrutura Terraform opinativa, deploys orquestrados em EKS e uma API .NET 8 otimizada para
-              baixa latência. Tudo guiado por telemetria em tempo real e playbooks claros para o time Flowa.
+              Infraestrutura Terraform opinativa, deploys orquestrados em ECS Fargate e uma API .NET 8 otimizada para
+              baixa latência. Tudo guiado por CloudWatch + automações documentadas para o time Flowa.
             </p>
             <div class="mt-8 flex flex-wrap gap-4">
               <a
@@ -200,19 +200,19 @@
             </div>
             <div class="mt-10 grid gap-4 sm:grid-cols-3">
               <div class="relative rounded-2xl border border-flowa-border/70 bg-flowa-card/60 p-4">
-                <p class="text-xs font-mono uppercase tracking-[0.3em] text-flowa-muted">Success Rate</p>
-                <p class="mt-2 text-3xl font-bold text-white">98.7%</p>
-                <p class="text-xs text-flowa-muted">CI/CD com gates de qualidade</p>
+                <p class="text-xs font-mono uppercase tracking-[0.3em] text-flowa-muted">Pipeline Steps</p>
+                <p class="mt-2 text-3xl font-bold text-white">6</p>
+                <p class="text-xs text-flowa-muted">Build/Test · DevSkim · Trivy · ZAP · Push · Deploy</p>
               </div>
               <div class="relative rounded-2xl border border-flowa-border/70 bg-flowa-card/60 p-4">
-                <p class="text-xs font-mono uppercase tracking-[0.3em] text-flowa-muted">Deploy Médio</p>
-                <p class="mt-2 text-3xl font-bold text-white">2.4s</p>
-                <p class="text-xs text-flowa-muted">Average rollout step</p>
+                <p class="text-xs font-mono uppercase tracking-[0.3em] text-flowa-muted">Deploy Targets</p>
+                <p class="mt-2 text-3xl font-bold text-white">2</p>
+                <p class="text-xs text-flowa-muted">ECS Fargate + EC2 gerenciado por SSM</p>
               </div>
               <div class="relative rounded-2xl border border-flowa-border/70 bg-flowa-card/60 p-4">
-                <p class="text-xs font-mono uppercase tracking-[0.3em] text-flowa-muted">Tasks</p>
-                <p class="mt-2 text-3xl font-bold text-white">1,482</p>
-                <p class="text-xs text-flowa-muted">Automação Bitbucket + Argo</p>
+                <p class="text-xs font-mono uppercase tracking-[0.3em] text-flowa-muted">Módulos IaC</p>
+                <p class="mt-2 text-3xl font-bold text-white">10</p>
+                <p class="text-xs text-flowa-muted">Networking, ALB, WAF, ECS, EC2, ECR, IAM, Lambda scheduler...</p>
               </div>
             </div>
           </div>
@@ -249,8 +249,8 @@
                     <p>Terraform</p>
                   </div>
                   <div class="space-y-2">
-                    <div class="mx-auto h-10 w-10 rounded-full border border-flowa-neon/60 bg-flowa-card/70 text-flowa-neon">EKS</div>
-                    <p>Cluster</p>
+                    <div class="mx-auto h-10 w-10 rounded-full border border-flowa-neon/60 bg-flowa-card/70 text-flowa-neon">ECS</div>
+                    <p>Serviço</p>
                   </div>
                   <div class="space-y-2">
                     <div class="mx-auto h-10 w-10 rounded-full border border-flowa-violet/60 bg-flowa-card/70 text-flowa-violet">API</div>
@@ -788,7 +788,7 @@ RestartSec=5
                   <i data-lucide="terminal" class="h-5 w-5 text-flowa-neon"></i>
                 </div>
                 <p class="mt-3 text-sm text-flowa-muted">
-                  Módulos reutilizáveis para VPC, Subnets, EKS com IRSA e observabilidade by default.
+                  Módulos reutilizáveis para VPC, sub-redes, ECS Fargate, EC2 de apoio, WAF e CloudWatch já integrados.
                 </p>
                 <div class="mt-4 flex items-center gap-2 text-xs font-semibold text-flowa-neon">
                   <span class="inline-flex items-center gap-1 rounded-full border border-flowa-neon/50 px-3 py-1">
@@ -811,7 +811,7 @@ RestartSec=5
                   <i data-lucide="code-xml" class="h-5 w-5 text-flowa-neon"></i>
                 </div>
                 <p class="mt-3 text-sm text-flowa-muted">
-                  Web API .NET 8 containerizada com health-checks, OpenTelemetry e manifests K8s GitOps.
+                  Web API .NET 8 containerizada com health-check `/api/status`, Dockerfile multi-stage, scripts de deploy para ECS (CodeDeploy) e EC2 (SSM).
                 </p>
                 <div class="mt-4 flex items-center gap-2 text-xs font-semibold text-flowa-neon">
                   <span class="inline-flex items-center gap-1 rounded-full border border-flowa-violet/50 px-3 py-1 text-flowa-violet">
@@ -872,13 +872,13 @@ RestartSec=5
                   <p class="font-mono text-xs uppercase tracking-[0.4em] text-flowa-muted">Principais capacidades</p>
                   <ul class="mt-3 space-y-2 text-sm text-flowa-text" x-show="activeTab === 'infra'">
                     <li>· Provisionamento idempotente de VPC, subnets privadas e públicas.</li>
-                    <li>· EKS com IRSA e addons essenciais (Cluster Autoscaler, ExternalDNS).</li>
-                    <li>· Pipelines Bitbucket com validação terraform fmt + tfsec.</li>
+                    <li>· ECS Fargate, EC2 e ALB protegidos pelo WAF com regras gerenciadas.</li>
+                    <li>· Pipelines Bitbucket com `terraform fmt/validate`, Checkov e runner custom (`terraform-runner`).</li>
                   </ul>
                   <ul class="mt-3 space-y-2 text-sm text-flowa-text" x-show="activeTab === 'app'">
-                    <li>· Web API .NET 8 com Minimal APIs e validação FluentValidation.</li>
-                    <li>· Dockerfile multi-stage + manifests Helm/Kustomize para deploy.</li>
-                    <li>· Observabilidade via OpenTelemetry + traces distribuídos.</li>
+                    <li>· Dockerfile multi-stage (restore/test/publish) com usuário não-root e `HEALTHCHECK`.</li>
+                    <li>· Scripts `deploy-ecs.sh` (CodeDeploy) e `deploy-ec2.sh` (SSM) aproveitam a mesma imagem.</li>
+                    <li>· `/api/status` exposto em todas as plataformas + cron `healthcheck.sh` para o EC2.</li>
                   </ul>
                 </div>
                 <div class="rounded-2xl border border-flowa-border/60 bg-flowa-card/60 p-4">
@@ -923,18 +923,17 @@ RestartSec=5
               </div>
               <p class="mt-3 text-lg font-semibold text-white">Terraform como fonte única de verdade</p>
               <p class="mt-2 text-sm text-flowa-muted">
-                Todo recurso AWS é rastreável em Git, com validações automáticas e revisão de pares.
-                Facilita auditorias e acelera rollbacks.
+                Todos os recursos estão nos módulos (`networking`, `ecs`, `ec2`, `waf`, `lambda_scheduler`, `cloudwatch`). Isso permite revisar PRs, detectar drift e executar `plan/apply` com segurança controlada.
               </p>
             </article>
             <article class="rounded-2xl border border-flowa-border/70 bg-flowa-deep/60 p-6">
               <div class="flex items-center gap-2 text-flowa-neon">
                 <i data-lucide="waves" class="h-5 w-5"></i>
-                <p class="font-mono text-xs uppercase tracking-[0.4em]">Kubernetes Orchestration</p>
+                <p class="font-mono text-xs uppercase tracking-[0.4em]">ECS Fargate Orchestration</p>
               </div>
-              <p class="mt-3 text-lg font-semibold text-white">EKS com canary e pod disruption budget</p>
+              <p class="mt-3 text-lg font-semibold text-white">Serviço gerenciado com blue/green</p>
               <p class="mt-2 text-sm text-flowa-muted">
-                Releases graduais 10 → 50 → 100% com rollback automático se error rate > 1% ou latência p95 > 45 ms.
+                A aplicação roda em tarefas Fargate atrás do ALB. Deploys acontecem via CodeDeploy blue/green usando o template `deploy/appspec-ecs.json.tmpl`, com rollback automático baseado em alarmes do CloudWatch.
               </p>
             </article>
             <article class="rounded-2xl border border-flowa-border/70 bg-flowa-deep/60 p-6">
@@ -942,19 +941,19 @@ RestartSec=5
                 <i data-lucide="git-branch" class="h-5 w-5"></i>
                 <p class="font-mono text-xs uppercase tracking-[0.4em]">CI/CD Pipelines</p>
               </div>
-              <p class="mt-3 text-lg font-semibold text-white">Bitbucket Pipelines + GitOps</p>
+              <p class="mt-3 text-lg font-semibold text-white">Bitbucket Pipelines + CodeDeploy + SSM</p>
               <p class="mt-2 text-sm text-flowa-muted">
-                Checks obrigatórios: lint, testes 80%+, SAST/@devsecops-staff e deploy automatizado via Argo.
+                O pipeline executa `dotnet format/test`, DevSkim, Trivy e ZAP antes de publicar a imagem no ECR. Os scripts `deploy-ecs.sh` e `deploy-ec2.sh` usam AWS CLI + OIDC para atualizar ECS e EC2 sem chaves estáticas.
               </p>
             </article>
             <article class="rounded-2xl border border-flowa-border/70 bg-flowa-deep/60 p-6">
               <div class="flex items-center gap-2 text-flowa-neon">
                 <i data-lucide="radar" class="h-5 w-5"></i>
-                <p class="font-mono text-xs uppercase tracking-[0.4em]">Observabilidade & SLOs</p>
+                <p class="font-mono text-xs uppercase tracking-[0.4em]">Observabilidade & Alertas</p>
               </div>
-              <p class="mt-3 text-lg font-semibold text-white">Stack Grafana, CloudWatch e OTEL</p>
+              <p class="mt-3 text-lg font-semibold text-white">CloudWatch dashboards, logs e SNS</p>
               <p class="mt-2 text-sm text-flowa-muted">
-                Logs estruturados, métricas custom e traces permitem RCA em minutos, alinhados a SLO 99.95% uptime.
+                O módulo `cloudwatch` gera o painel “flowa-base-teste-devops-<env>-golden” e alarmes no SNS `flowa-base-<env>-alarms`. Logs do ALB, ECS, Lambda scheduler e WAF ficam separados para facilitar RCA.
               </p>
             </article>
           </div>
@@ -977,7 +976,7 @@ RestartSec=5
               <p class="font-mono text-xs uppercase tracking-[0.4em] text-flowa-muted">01 · Pré-requisitos</p>
               <p class="mt-2 text-xl font-semibold text-white">Clonar repositórios e configurar secrets</p>
               <p class="mt-2 text-sm text-flowa-muted">
-                `git clone git@bitbucket.org:flowa/infra-terraform.git && git clone git@bitbucket.org:flowa/app-dotnet-service.git`
+                `git clone git@bitbucket.org:flowa-base-teste-devops/infra-terraform.git && git clone git@bitbucket.org:flowa-base-teste-devops/app-dotnet-service.git`
               </p>
             </li>
             <li class="relative rounded-2xl border border-flowa-border/60 bg-flowa-deep/70 p-6">
@@ -985,7 +984,7 @@ RestartSec=5
               <p class="font-mono text-xs uppercase tracking-[0.4em] text-flowa-muted">02 · Infraestrutura</p>
               <p class="mt-2 text-xl font-semibold text-white">Provisionar com Terraform</p>
               <p class="mt-2 text-sm text-flowa-muted">
-                `terraform init && terraform plan -var-file=envs/prod.tfvars && terraform apply`
+                `cd infra-terraform/environments/dev && terraform init && terraform plan -var-file=terraform.tfvars`
               </p>
             </li>
             <li class="relative rounded-2xl border border-flowa-border/60 bg-flowa-deep/70 p-6">
@@ -993,15 +992,15 @@ RestartSec=5
               <p class="font-mono text-xs uppercase tracking-[0.4em] text-flowa-muted">03 · Aplicação</p>
               <p class="mt-2 text-xl font-semibold text-white">Build & deploy da API</p>
               <p class="mt-2 text-sm text-flowa-muted">
-                `dotnet test && dotnet publish -c Release`; Docker push & sync com Argo Rollouts.
+                `dotnet test && dotnet publish -c Release`; Docker build/push para o ECR e execução dos scripts `deploy-ecs.sh` (CodeDeploy) e `deploy-ec2.sh` (SSM).
               </p>
             </li>
             <li class="relative rounded-2xl border border-flowa-border/60 bg-flowa-deep/70 p-6">
               <div class="absolute -left-3 top-6 h-6 w-6 rounded-full border border-flowa-neon bg-flowa-forest"></div>
               <p class="font-mono text-xs uppercase tracking-[0.4em] text-flowa-muted">04 · Verificação</p>
-              <p class="mt-2 text-xl font-semibold text-white">Smoke tests + Observabilidade</p>
+              <p class="mt-2 text-xl font-semibold text-white">Health-check & CloudWatch golden</p>
               <p class="mt-2 text-sm text-flowa-muted">
-                Executar collections Bruno/Postman, validar métricas no dashboard e confirmar SLOs.
+                Realizar `curl https://<alb>/api/status` (deve responder “Healthy”) e abrir o dashboard "flowa-base-teste-devops-<env>-golden" no CloudWatch para confirmar tráfego, latência e CPU. Verifique também se o tópico SNS `flowa-base-<env>-alarms` está sem notificações pendentes.
               </p>
             </li>
           </ol>
@@ -1011,8 +1010,8 @@ RestartSec=5
         <section id="aws" class="rounded-[32px] border border-flowa-border/70 bg-flowa-card/80 p-8 shadow-holo">
           <div class="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p class="font-mono text-xs uppercase tracking-[0.5em] text-flowa-muted">AWS · Dashboards</p>
-              <h2 class="mt-2 font-mono text-3xl text-white">Acesso rápido a métricas</h2>
+              <p class="font-mono text-xs uppercase tracking-[0.5em] text-flowa-muted">AWS · Observabilidade prática</p>
+              <h2 class="mt-2 font-mono text-3xl text-white">Dashboards, alarmes e automações nativas</h2>
             </div>
             <a
               href="https://console.aws.amazon.com/"
@@ -1025,42 +1024,42 @@ RestartSec=5
           </div>
           <div class="mt-8 grid gap-6 md:grid-cols-3">
             <div class="rounded-2xl border border-flowa-border/60 bg-flowa-deep/70 p-6">
-              <p class="font-mono text-xs uppercase tracking-[0.4em] text-flowa-muted">Uptime</p>
-              <p class="mt-3 text-4xl font-bold text-white">99.98%</p>
-              <p class="mt-2 text-sm text-flowa-muted">SLO mensal com alertas em 2 canais (PagerDuty + Teams).</p>
+              <p class="font-mono text-xs uppercase tracking-[0.4em] text-flowa-muted">Painel CloudWatch</p>
+              <p class="mt-3 text-xl font-bold text-white">flowa-base-teste-devops-&lt;env&gt;-golden</p>
+              <p class="mt-2 text-sm text-flowa-muted">Criado pelo módulo `cloudwatch`, consolida tráfego do ALB, latência média/p95, CPU/memória do ECS e status do EC2.</p>
             </div>
             <div class="rounded-2xl border border-flowa-border/60 bg-flowa-deep/70 p-6">
-              <p class="font-mono text-xs uppercase tracking-[0.4em] text-flowa-muted">Latência p95</p>
-              <p class="mt-3 text-4xl font-bold text-white">&lt; 45 ms</p>
-              <p class="mt-2 text-sm text-flowa-muted">Verificado via CloudWatch + X-Ray distribuído.</p>
+              <p class="font-mono text-xs uppercase tracking-[0.4em] text-flowa-muted">Alarmes & SNS</p>
+              <p class="mt-3 text-xl font-bold text-white">flowa-base-&lt;env&gt;-alarms</p>
+              <p class="mt-2 text-sm text-flowa-muted">Dispara e-mails quando ALB gera 5xx, latência supera 0,8s, ECS/EC2 sai da linha ou a rede oscila — exatamente como descrito no README.</p>
             </div>
             <div class="rounded-2xl border border-flowa-border/60 bg-flowa-deep/70 p-6">
-              <p class="font-mono text-xs uppercase tracking-[0.4em] text-flowa-muted">Error rate</p>
-              <p class="mt-3 text-4xl font-bold text-white">0.7%</p>
-              <p class="mt-2 text-sm text-flowa-muted">Alertas proativos antes de impactar usuários finais.</p>
+              <p class="font-mono text-xs uppercase tracking-[0.4em] text-flowa-muted">Lambda Scheduler</p>
+              <p class="mt-3 text-xl font-bold text-white">Start 09h · Stop 18h</p>
+              <p class="mt-2 text-sm text-flowa-muted">Funções declaradas em `module.lambda_scheduler` ajustam o `desired_count` do ECS e enviam `StartInstances/StopInstances` para o EC2, garantindo economia fora do horário útil.</p>
             </div>
           </div>
           <div class="mt-8 grid gap-6 md:grid-cols-2">
             <article class="rounded-2xl border border-flowa-border/70 bg-flowa-deep/60 p-6">
               <div class="flex items-center gap-2 text-flowa-neon">
                 <i data-lucide="monitor-check" class="h-5 w-5"></i>
-                <p class="font-mono text-xs uppercase tracking-[0.4em]">Dashboards sugeridos</p>
+                <p class="font-mono text-xs uppercase tracking-[0.4em]">Recursos observáveis</p>
               </div>
               <ul class="mt-4 space-y-3 text-sm text-flowa-text">
-                <li>· Grafana: tracing de transações críticas + heatmaps de throughput.</li>
-                <li>· CloudWatch: logs estruturados com correlação de requestId.</li>
-                <li>· AWS X-Ray: mapa de serviço para RCA em minutos.</li>
+                <li>· <strong>CloudWatch Logs</strong>: `/ecs/...`, `/aws/lambda/...`, `/aws/vpc/...`, WAF (S3) e ALB (S3 versionado) já separados, conforme documentação.</li>
+                <li>· <strong>Flow Logs + WAF</strong>: ajudam a investigar tráfego suspeito e ficam criptografados pela mesma KMS do ambiente.</li>
+                <li>· <strong>Secrets e métricas</strong>: Secrets Manager guarda as credenciais da aplicação/DB, enquanto os dashboards acompanham golden signals.</li>
               </ul>
             </article>
             <article class="rounded-2xl border border-flowa-border/70 bg-flowa-deep/60 p-6">
               <div class="flex items-center gap-2 text-flowa-neon">
                 <i data-lucide="radar" class="h-5 w-5"></i>
-                <p class="font-mono text-xs uppercase tracking-[0.4em]">Playbook rápido</p>
+                <p class="font-mono text-xs uppercase tracking-[0.4em]">Guia de verificação</p>
               </div>
               <ol class="mt-4 space-y-3 text-sm text-flowa-text list-decimal list-inside">
-                <li>Validar alarmes CloudWatch e métricas canary.</li>
-                <li>Executar `kubectl top pods` / `stern` para logs em tempo real.</li>
-                <li>Acionar @sre-staff se incidente ultrapassar 15 min.</li>
+                <li>Acompanhar o painel "flowa-base-teste-devops-<env>-golden" após cada deploy (ECS ou EC2).</li>
+                <li>Checar o SNS `flowa-base-<env>-alarms` para confirmar que não há alarmes ativos.</li>
+                <li>Se houver falha, revisar o deployment no CodeDeploy (ECS) ou o comando SSM (EC2) e consultar os logs correspondentes no CloudWatch.</li>
               </ol>
             </article>
           </div>
