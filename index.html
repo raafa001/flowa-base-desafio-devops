@@ -60,6 +60,10 @@
         color-scheme: dark;
       }
 
+      [x-cloak] {
+        display: none !important;
+      }
+
       body {
         font-family: 'Inter', system-ui, sans-serif;
         background-color: #050a07;
@@ -284,8 +288,436 @@
         </div>
       </section>
 
-      <!-- Sumário interativo -->
-      <section id="sumario" class="relative overflow-hidden rounded-[32px] border border-flowa-border/70 bg-flowa-card/70 p-8">
+      <!-- Checklist do desafio -->
+      <section id="checklist" class="rounded-[32px] border border-flowa-border/70 bg-flowa-card/80 p-8 shadow-holo">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <p class="font-mono text-xs uppercase tracking-[0.5em] text-flowa-muted">Checklist oficial do desafio</p>
+            <h2 class="mt-2 font-mono text-3xl text-white">Tudo que a Flowa pediu — mapeado com links</h2>
+            <p class="mt-2 max-w-3xl text-sm text-flowa-muted">
+              Cada item abaixo aponta para a seção correspondente desta documentação. Use como guia rápido para validação.
+            </p>
+          </div>
+          <a
+            href="#repos"
+            class="inline-flex items-center gap-2 rounded-full border border-flowa-cyan/40 px-5 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-flowa-cyan"
+          >
+            Ver repositórios
+            <i data-lucide="external-link" class="h-4 w-4"></i>
+          </a>
+        </div>
+        <div class="mt-8 grid gap-6 lg:grid-cols-3">
+          <article class="holo-card relative rounded-[24px] p-6">
+            <h3 class="text-lg font-semibold text-white">Execução em contêiner</h3>
+            <p class="mt-1 text-sm text-flowa-muted">ECS Fargate + observabilidade completa.</p>
+            <ul class="mt-4 space-y-3 text-sm">
+              <li class="flex items-start justify-between gap-4 border-b border-flowa-border/30 pb-3">
+                <div>
+                  <p class="font-semibold text-white">Imagem publicada no ECR</p>
+                  <a href="#guias" data-topic="ci-app" class="text-xs text-flowa-cyan hover:underline">Pipeline · etapa build_push_ecr</a>
+                </div>
+                <i data-lucide="check-circle" class="h-5 w-5 text-flowa-neon"></i>
+              </li>
+              <li class="flex items-start justify-between gap-4 border-b border-flowa-border/30 pb-3">
+                <div>
+                  <p class="font-semibold text-white">Execução no ECS Fargate porta 5000</p>
+                  <a href="#guias" data-topic="ci-app" class="text-xs text-flowa-cyan hover:underline">deploy-ecs.sh + CodeDeploy blue/green</a>
+                </div>
+                <i data-lucide="check-circle" class="h-5 w-5 text-flowa-neon"></i>
+              </li>
+              <li class="flex items-start justify-between gap-4 border-b border-flowa-border/30 pb-3">
+                <div>
+                  <p class="font-semibold text-white">Autoscaling configurado</p>
+                  <a href="#guias" data-topic="tf-modulos" class="text-xs text-flowa-cyan hover:underline">module.ecs + parâmetros <code>ecs_autoscaling_*</code></a>
+                </div>
+                <i data-lucide="check-circle" class="h-5 w-5 text-flowa-neon"></i>
+              </li>
+              <li class="flex items-start justify-between gap-4 border-b border-flowa-border/30 pb-3">
+                <div>
+                  <p class="font-semibold text-white">Métricas e dashboards</p>
+                  <a href="#aws" class="text-xs text-flowa-cyan hover:underline">module.cloudwatch + painéis golden</a>
+                </div>
+                <i data-lucide="check-circle" class="h-5 w-5 text-flowa-neon"></i>
+              </li>
+              <li class="flex items-start justify-between gap-4 border-b border-flowa-border/30 pb-3">
+                <div>
+                  <p class="font-semibold text-white">Alarmes e alertas</p>
+                  <a href="#aws" class="text-xs text-flowa-cyan hover:underline">SNS flowa-base-alarms</a>
+                </div>
+                <i data-lucide="check-circle" class="h-5 w-5 text-flowa-neon"></i>
+              </li>
+              <li class="flex items-start justify-between gap-4 border-b border-flowa-border/30 pb-3">
+                <div>
+                  <p class="font-semibold text-white">Lambda start/stop (09h → 18h)</p>
+                  <a href="#guias" data-topic="tf-modulos" class="text-xs text-flowa-cyan hover:underline">module.lambda_scheduler</a>
+                </div>
+                <i data-lucide="check-circle" class="h-5 w-5 text-flowa-neon"></i>
+              </li>
+              <li class="flex items-start justify-between gap-4">
+                <div>
+                  <p class="font-semibold text-white">AWS WAF com OWASP Top 10</p>
+                  <a href="#guias" data-topic="tf-modulos" class="text-xs text-flowa-cyan hover:underline">module.waf + managed rule sets</a>
+                </div>
+                <i data-lucide="check-circle" class="h-5 w-5 text-flowa-neon"></i>
+              </li>
+            </ul>
+          </article>
+
+          <article class="holo-card relative rounded-[24px] p-6">
+            <h3 class="text-lg font-semibold text-white">Execução em servidor Linux</h3>
+            <p class="mt-1 text-sm text-flowa-muted">EC2 privado, systemd e automações.</p>
+            <ul class="mt-4 space-y-3 text-sm">
+              <li class="flex items-start justify-between gap-4 border-b border-flowa-border/30 pb-3">
+                <div>
+                  <p class="font-semibold text-white">Artefato Linux gerado</p>
+                  <a href="#guias" data-topic="ci-app" class="text-xs text-flowa-cyan hover:underline">dotnet publish + zip</a>
+                </div>
+                <i data-lucide="check-circle" class="h-5 w-5 text-flowa-neon"></i>
+              </li>
+              <li class="flex items-start justify-between gap-4 border-b border-flowa-border/30 pb-3">
+                <div>
+                  <p class="font-semibold text-white">Porta 5000 exposta via ALB</p>
+                  <a href="#guias" data-topic="ec2-ops" class="text-xs text-flowa-cyan hover:underline">service systemd + target group</a>
+                </div>
+                <i data-lucide="check-circle" class="h-5 w-5 text-flowa-neon"></i>
+              </li>
+              <li class="flex items-start justify-between gap-4 border-b border-flowa-border/30 pb-3">
+                <div>
+                  <p class="font-semibold text-white">EC2 privado + ALB público</p>
+                  <a href="#guias" data-topic="tf-modulos" class="text-xs text-flowa-cyan hover:underline">networking + alb modules</a>
+                </div>
+                <i data-lucide="check-circle" class="h-5 w-5 text-flowa-neon"></i>
+              </li>
+              <li class="flex items-start justify-between gap-4 border-b border-flowa-border/30 pb-3">
+                <div>
+                  <p class="font-semibold text-white">Dois usuários locais (deploy/app)</p>
+                  <a href="#guias" data-topic="ec2-ops" class="text-xs text-flowa-cyan hover:underline">user_data.sh.tpl</a>
+                </div>
+                <i data-lucide="check-circle" class="h-5 w-5 text-flowa-neon"></i>
+              </li>
+              <li class="flex items-start justify-between gap-4 border-b border-flowa-border/30 pb-3">
+                <div>
+                  <p class="font-semibold text-white">Transferência via pipeline</p>
+                  <a href="#guias" data-topic="ec2-ops" class="text-xs text-flowa-cyan hover:underline">deploy-ec2.sh + SSM</a>
+                </div>
+                <i data-lucide="check-circle" class="h-5 w-5 text-flowa-neon"></i>
+              </li>
+              <li class="flex items-start justify-between gap-4 border-b border-flowa-border/30 pb-3">
+                <div>
+                  <p class="font-semibold text-white">Serviço systemd automatizado</p>
+                  <a href="#guias" data-topic="ec2-ops" class="text-xs text-flowa-cyan hover:underline">systemd/flowa-base-teste-devops.service</a>
+                </div>
+                <i data-lucide="check-circle" class="h-5 w-5 text-flowa-neon"></i>
+              </li>
+              <li class="flex items-start justify-between gap-4 border-b border-flowa-border/30 pb-3">
+                <div>
+                  <p class="font-semibold text-white">Cron start/stop e healthcheck</p>
+                  <a href="#guias" data-topic="ec2-ops" class="text-xs text-flowa-cyan hover:underline">cron/healthcheck.sh + user data</a>
+                </div>
+                <i data-lucide="check-circle" class="h-5 w-5 text-flowa-neon"></i>
+              </li>
+              <li class="flex items-start justify-between gap-4">
+                <div>
+                  <p class="font-semibold text-white">Lambda agenda EC2</p>
+                  <a href="#guias" data-topic="tf-modulos" class="text-xs text-flowa-cyan hover:underline">module.lambda_scheduler</a>
+                </div>
+                <i data-lucide="check-circle" class="h-5 w-5 text-flowa-neon"></i>
+              </li>
+            </ul>
+          </article>
+
+          <article class="holo-card relative rounded-[24px] p-6">
+            <h3 class="text-lg font-semibold text-white">Premissas & Governança</h3>
+            <p class="mt-1 text-sm text-flowa-muted">Tudo orquestrado com Bitbucket + AWS sa-east-1.</p>
+            <ul class="mt-4 space-y-3 text-sm">
+              <li class="flex items-start justify-between gap-4 border-b border-flowa-border/30 pb-3">
+                <div>
+                  <p class="font-semibold text-white">AWS sa-east-1 + Bitbucket OIDC</p>
+                  <a href="#guias" data-topic="ci-terraform" class="text-xs text-flowa-cyan hover:underline">pipelines assumem role sem chave</a>
+                </div>
+                <i data-lucide="check-circle" class="h-5 w-5 text-flowa-neon"></i>
+              </li>
+              <li class="flex items-start justify-between gap-4 border-b border-flowa-border/30 pb-3">
+                <div>
+                  <p class="font-semibold text-white">Terraform como IaC</p>
+                  <a href="#guias" data-topic="tf-modulos" class="text-xs text-flowa-cyan hover:underline">modules + environments</a>
+                </div>
+                <i data-lucide="check-circle" class="h-5 w-5 text-flowa-neon"></i>
+              </li>
+              <li class="flex items-start justify-between gap-4 border-b border-flowa-border/30 pb-3">
+                <div>
+                  <p class="font-semibold text-white">Build/push de container no pipeline</p>
+                  <a href="#guias" data-topic="ci-app" class="text-xs text-flowa-cyan hover:underline">step build_push_ecr</a>
+                </div>
+                <i data-lucide="check-circle" class="h-5 w-5 text-flowa-neon"></i>
+              </li>
+              <li class="flex items-start justify-between gap-4 border-b border-flowa-border/30 pb-3">
+                <div>
+                  <p class="font-semibold text-white">Deploy em serviço gerenciado via API</p>
+                  <a href="#guias" data-topic="ci-app" class="text-xs text-flowa-cyan hover:underline">aws deploy create-deployment</a>
+                </div>
+                <i data-lucide="check-circle" class="h-5 w-5 text-flowa-neon"></i>
+              </li>
+              <li class="flex items-start justify-between gap-4 border-b border-flowa-border/30 pb-3">
+                <div>
+                  <p class="font-semibold text-white">Build de artefato Linux</p>
+                  <a href="#guias" data-topic="ci-app" class="text-xs text-flowa-cyan hover:underline">dotnet publish + zip</a>
+                </div>
+                <i data-lucide="check-circle" class="h-5 w-5 text-flowa-neon"></i>
+              </li>
+              <li class="flex items-start justify-between gap-4 border-b border-flowa-border/30 pb-3">
+                <div>
+                  <p class="font-semibold text-white">Deploy automatizado no EC2</p>
+                  <a href="#guias" data-topic="ec2-ops" class="text-xs text-flowa-cyan hover:underline">SSM document + systemd</a>
+                </div>
+                <i data-lucide="check-circle" class="h-5 w-5 text-flowa-neon"></i>
+              </li>
+              <li class="flex items-start justify-between gap-4 border-b border-flowa-border/30 pb-3">
+                <div>
+                  <p class="font-semibold text-white">IPs privados + ALB público</p>
+                  <a href="#guias" data-topic="tf-modulos" class="text-xs text-flowa-cyan hover:underline">networking + alb</a>
+                </div>
+                <i data-lucide="check-circle" class="h-5 w-5 text-flowa-neon"></i>
+              </li>
+              <li class="flex items-start justify-between gap-4">
+                <div>
+                  <p class="font-semibold text-white">Regras de bloqueio & WAF</p>
+                  <a href="#guias" data-topic="tf-modulos" class="text-xs text-flowa-cyan hover:underline">SGs privados + WAF managed rules</a>
+                </div>
+                <i data-lucide="check-circle" class="h-5 w-5 text-flowa-neon"></i>
+              </li>
+            </ul>
+          </article>
+        </div>
+        </section>
+
+        <!-- Guias didáticos por tópico -->
+        <section
+          id="guias"
+          class="rounded-[32px] border border-flowa-border/70 bg-flowa-card/70 p-8 shadow-holo"
+          x-data="{ topic: 'ci-app' }"
+          x-init="window.addEventListener('guides:set', (event) => { topic = event.detail })"
+        >
+          <div class="flex flex-wrap items-center gap-3">
+            <button
+              @click="topic = 'ci-app'"
+              :class="topic === 'ci-app' ? 'border-flowa-neon text-flowa-neon shadow-glow' : 'border-flowa-border/60 text-flowa-muted'"
+              class="rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em]"
+            >
+              CI/CD · Aplicação .NET
+            </button>
+            <button
+              @click="topic = 'ci-terraform'"
+              :class="topic === 'ci-terraform' ? 'border-flowa-neon text-flowa-neon shadow-glow' : 'border-flowa-border/60 text-flowa-muted'"
+              class="rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em]"
+            >
+              CI/CD · Terraform
+            </button>
+            <button
+              @click="topic = 'dockerfile'"
+              :class="topic === 'dockerfile' ? 'border-flowa-neon text-flowa-neon shadow-glow' : 'border-flowa-border/60 text-flowa-muted'"
+              class="rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em]"
+            >
+              Dockerfile & Conteinerização
+            </button>
+            <button
+              @click="topic = 'tf-modulos'"
+              :class="topic === 'tf-modulos' ? 'border-flowa-neon text-flowa-neon shadow-glow' : 'border-flowa-border/60 text-flowa-muted'"
+              class="rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em]"
+            >
+              Manifests Terraform
+            </button>
+            <button
+              @click="topic = 'ec2-ops'"
+              :class="topic === 'ec2-ops' ? 'border-flowa-neon text-flowa-neon shadow-glow' : 'border-flowa-border/60 text-flowa-muted'"
+              class="rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em]"
+            >
+              Execução Tradicional Linux
+            </button>
+          </div>
+
+          <div class="mt-10 space-y-10">
+            <div x-show="topic === 'ci-app'" x-cloak id="ci-app" class="grid gap-6 lg:grid-cols-[1.2fr,0.8fr]">
+              <div>
+                <p class="font-mono text-xs uppercase tracking-[0.4em] text-flowa-muted">bitbucket-pipelines.yml · app-dotnet-service</p>
+                <h3 class="mt-2 text-2xl font-mono text-white">Pipeline da aplicação: qualidade antes de qualquer deploy</h3>
+                <p class="mt-4 text-sm text-flowa-muted">
+                  Cada merge passa por uma bateria obrigatória: formatação + testes com cobertura, SAST (DevSkim), SCA (Trivy
+                  filesystem/imagem), DAST (OWASP ZAP) e só então a imagem é enviada ao ECR com tags imutáveis.
+                </p>
+                <ul class="mt-6 space-y-3 text-sm text-flowa-text">
+                  <li>• <strong>Build/Test</strong>: <code>dotnet format</code> impede drift e <code>dotnet test</code> gera LCOV para auditoria.</li>
+                  <li>• <strong>SAST + SCA + DAST</strong>: DevSkim, Trivy (fs+image) e ZAP baseline bloqueiam HIGH/CRITICAL antes do deploy.</li>
+                  <li>• <strong>Push ECR com OIDC</strong>: step `build_push_ecr` assume a role temporária e versiona a imagem via digest.</li>
+                  <li>• <strong>Deploy DEV → STG</strong>: scripts `deploy-ecs.sh` e `deploy-ec2.sh` reaproveitam a mesma imagem; STG só acontece após sucesso em DEV.</li>
+                  <li>• <strong>Promoção e rollback</strong>: tags `-staging` e pipelines `deploy-manual`/`rollback` permitem reversão apontando apenas a tag/digest.</li>
+                </ul>
+                <p class="mt-4 text-sm text-flowa-muted">
+                  O pipeline ainda exporta relatórios (coverage, DevSkim, Trivy, ZAP), garante execução em runners self-hosted e usa apenas secrets do AWS Secrets Manager.
+                </p>
+              </div>
+              <div class="rounded-[24px] border border-flowa-border/60 bg-black/40 p-5 font-mono text-xs text-flowa-text shadow-inner">
+                <div class="mb-3 flex items-center justify-between text-flowa-muted">
+                  <span>bitbucket-pipelines.yml</span>
+                  <span>CI/CD .NET</span>
+                </div>
+                <pre class="whitespace-pre-wrap">- step: "CI: Build Imagem e Push para ECR"
+    oidc: true
+    script:
+      - eval "$(./scripts/oidc-assume-role.sh ...)"
+      - docker build -t ${ECR}/${REPO}:${IMAGE_TAG} .
+      - docker push ${ECR}/${REPO}:${IMAGE_TAG}
+
+- step: "CD: Deploy em DEV"
+    trigger: manual
+    script:
+      - ./scripts/deploy-ec2.sh --env dev --tag ${IMAGE_TAG}
+      - ./scripts/deploy-ecs.sh --env dev --tag ${IMAGE_TAG}
+      - aws ecr put-image ... --image-tag "${BASE}-staging"</pre>
+              </div>
+            </div>
+
+            <div x-show="topic === 'ci-terraform'" x-cloak id="ci-terraform" class="grid gap-6 lg:grid-cols-[1.2fr,0.8fr]">
+              <div>
+                <p class="font-mono text-xs uppercase tracking-[0.4em] text-flowa-muted">bitbucket-pipelines.yml · infra-terraform</p>
+                <h3 class="mt-2 text-2xl font-mono text-white">Pipeline da infraestrutura: guard rails antes do apply</h3>
+                <ul class="mt-6 space-y-3 text-sm text-flowa-text">
+                  <li>• <strong>Fmt + Validate</strong>: instala Terraform 1.7.4, fixa timezone e ativa o plugin cache para execuções mais rápidas.</li>
+                  <li>• <strong>Checkov obrigatório</strong>: `Security: Checkov IaC Scan` falha em qualquer severidade alta.</li>
+                  <li>• <strong>Auto plan DEV</strong>: gera `tf-artifacts/dev.tfplan` e só libera o apply após aprovação manual.</li>
+                  <li>• <strong>Custom runner</strong>: `terraform-runner` aceita ações `plan/apply/destroy/import` e alvo por módulo (`module.ecs`, `module.waf`...).</li>
+                  <li>• <strong>Drift diário</strong>: dois cron jobs (09h e 17h) comparam `dev` e `staging`, enviando alerta se o exit-code for 2.</li>
+                </ul>
+                <p class="mt-4 text-sm text-flowa-muted">
+                  Todo acesso AWS usa OIDC (script `scripts/oidc-assume-role.sh`), eliminando chaves fixas e permitindo auditoria por session name.</p>
+              </div>
+              <div class="rounded-[24px] border border-flowa-border/60 bg-black/40 p-5 font-mono text-xs text-flowa-text shadow-inner">
+                <div class="mb-3 flex items-center justify-between text-flowa-muted">
+                  <span>bitbucket-pipelines.yml</span>
+                  <span>Terraform</span>
+                </div>
+                <pre class="whitespace-pre-wrap">default:
+  - parallel: [*tf_fmt_validate, *checkov_scan]
+  - step: *tf_auto_plan_dev
+  - step: *tf_manual_apply_dev
+
+custom: terraform-runner
+  variables:
+    ACTION: [plan|apply|destroy|import]
+    TARGET_RESOURCE: module.ecs | module.alb | ...
+  steps:
+    - step: *tf_fmt_validate
+    - step: *checkov_scan
+    - step: "Executar Ação Selecionada"</pre>
+              </div>
+            </div>
+
+            <div x-show="topic === 'dockerfile'" x-cloak id="dockerfile" class="grid gap-6 lg:grid-cols-[1.2fr,0.8fr]">
+              <div>
+                <p class="font-mono text-xs uppercase tracking-[0.4em] text-flowa-muted">Dockerfile · app-dotnet-service</p>
+                <h3 class="mt-2 text-2xl font-mono text-white">Imagem enxuta, segura e autosuficiente</h3>
+                <ul class="mt-6 space-y-3 text-sm text-flowa-text">
+                  <li>• <strong>Build multi-stage</strong>: restaura, testa e publica no estágio <code>sdk</code>; runtime usa apenas o `aspnet`.</li>
+                  <li>• <strong>Hardening</strong>: atualiza o Debian, remove cache e roda como usuário `appuser` (não-root).</li>
+                  <li>• <strong>Porta 5000</strong>: `ASPNETCORE_URLS=http://+:5000` garante compatibilidade com ECS e EC2.</li>
+                  <li>• <strong>Healthcheck nativo</strong>: consulta `/api/status` a cada 30s e ativa rollback automático no CodeDeploy.</li>
+                  <li>• <strong>Testes dentro da imagem</strong>: `dotnet test ... --results-directory` garante que nenhuma regressão escape.</li>
+                </ul>
+                <p class="mt-4 text-sm text-flowa-muted">Tudo isso respeita a exigência do desafio de expor `/api/status` respondendo “Healthy”.</p>
+              </div>
+              <div class="rounded-[24px] border border-flowa-border/60 bg-black/40 p-5 font-mono text-xs text-flowa-text shadow-inner">
+                <div class="mb-3 flex items-center justify-between text-flowa-muted">
+                  <span>Dockerfile</span>
+                  <span>Container</span>
+                </div>
+                <pre class="whitespace-pre-wrap">FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+RUN dotnet test ATG_TESTE_API.csproj --logger trx
+RUN dotnet publish ... -o /app/publish
+
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+RUN apt-get update && apt-get upgrade -y
+USER appuser
+ENV ASPNETCORE_URLS=http://+:5000
+HEALTHCHECK CMD curl -f http://localhost:5000/api/status || exit 1
+ENTRYPOINT ["dotnet", "ATG_TESTE_API.dll"]</pre>
+              </div>
+            </div>
+
+            <div x-show="topic === 'tf-modulos'" x-cloak id="tf-modulos" class="grid gap-6 lg:grid-cols-[1.2fr,0.8fr]">
+              <div>
+                <p class="font-mono text-xs uppercase tracking-[0.4em] text-flowa-muted">infra-terraform/modules</p>
+                <h3 class="mt-2 text-2xl font-mono text-white">Onde está cada manifesto Terraform</h3>
+                <p class="mt-4 text-sm text-flowa-muted">O repositório se comporta como LEGO: ambientes em <code>environments/</code> apontam para módulos reutilizáveis.</p>
+                <ul class="mt-6 space-y-3 text-sm text-flowa-text">
+                  <li>• <strong>networking</strong>: cria VPC com sub-redes privadas/públicas, NAT, Flow Logs e tags para FinOps.</li>
+                  <li>• <strong>alb + waf</strong>: ALB público recebe tráfego e associa o AWS WAF com regras OWASP Top 10.</li>
+                  <li>• <strong>ecs / ecr / iam</strong>: stack completa para Fargate (autoscaling, roles, secrets, log groups).</li>
+                  <li>• <strong>ec2</strong>: instancia privada com target group, user data renderizando systemd, criação dos usuários `deploy` e `app-runner` e patching via SSM.</li>
+                  <li>• <strong>lambda_scheduler</strong>: funções que ligam/desligam ECS e EC2 às 09h/18h.</li>
+                  <li>• <strong>cloudwatch</strong>: dashboards “golden” e alarms (latência, 5xx, CPU, memória, rede, contagem de instâncias).</li>
+                  <li>• <strong>secrets</strong>: Secrets Manager + KMS dedicado por ambiente para app e DB.</li>
+                </ul>
+                <p class="mt-4 text-sm text-flowa-muted">
+                  Para operar: entre em <code>environments/dev</code> ou <code>staging</code>, ajuste o <code>terraform.tfvars</code> e use o pipeline custom `terraform-runner`.
+                </p>
+              </div>
+              <div class="rounded-[24px] border border-flowa-border/60 bg-black/40 p-5 font-mono text-xs text-flowa-text shadow-inner">
+                <div class="mb-3 flex items-center justify-between text-flowa-muted">
+                  <span>Estrutura</span>
+                  <span>Modules</span>
+                </div>
+                <pre class="whitespace-pre-wrap">infra-terraform/
+├── modules/
+│   ├── networking
+│   ├── alb
+│   ├── waf
+│   ├── ecs
+│   ├── ec2
+│   ├── lambda_scheduler
+│   └── cloudwatch
+├── environments/
+│   ├── dev/terraform.tfvars
+│   └── staging/terraform.tfvars
+└── scripts/terraform.sh</pre>
+              </div>
+            </div>
+
+            <div x-show="topic === 'ec2-ops'" x-cloak id="ec2-ops" class="grid gap-6 lg:grid-cols-[1.2fr,0.8fr]">
+              <div>
+                <p class="font-mono text-xs uppercase tracking-[0.4em] text-flowa-muted">deploy-ec2.sh + systemd + cron</p>
+                <h3 class="mt-2 text-2xl font-mono text-white">Execução tradicional em Linux (EC2)</h3>
+                <ul class="mt-6 space-y-3 text-sm text-flowa-text">
+                  <li>• <strong>Pipeline</strong>: `deploy-ec2.sh` faz `dotnet publish`, zipa, envia ao S3 (`ARTIFACT_BUCKET`) e executa um documento SSM para atualizar o servidor.</li>
+                  <li>• <strong>User data</strong>: `modules/ec2/templates/user_data.sh.tpl` cria os usuários <code>deploy_user</code> e <code>app_user</code>, instala .NET 8, systemd e cron 09h/18h.</li>
+                  <li>• <strong>Systemd</strong>: `systemd/flowa-base-teste-devops.service` roda como `app-runner`, escuta na porta 5000 e reinicia em caso de falha.</li>
+                  <li>• <strong>Cron/healthcheck</strong>: `cron/healthcheck.sh` chama `/api/status` a cada 5 min e reinicia o serviço se necessário.</li>
+                  <li>• <strong>Lambda EC2</strong>: `module.lambda_scheduler` também envia `StartInstances`/`StopInstances` para manter o servidor desligado fora do horário útil.</li>
+                </ul>
+                <p class="mt-4 text-sm text-flowa-muted">Assim atendemos a exigência de executar a mesma aplicação como container e como processo tradicional.</p>
+              </div>
+              <div class="rounded-[24px] border border-flowa-border/60 bg-black/40 p-5 font-mono text-xs text-flowa-text shadow-inner">
+                <div class="mb-3 flex items-center justify-between text-flowa-muted">
+                  <span>systemd/flowa-base-teste-devops.service</span>
+                  <span>EC2</span>
+                </div>
+                <pre class="whitespace-pre-wrap">[Service]
+User=app-runner
+WorkingDirectory=/opt/flowa/base/current
+EnvironmentFile=/etc/flowa-base.env
+ExecStart=/usr/bin/dotnet /opt/flowa/base/current/ATG_TESTE_API.dll
+Restart=on-failure
+RestartSec=5
+
+# Cron gerado no user_data
+0 9 * * 1-5 systemctl start flowa-base
+0 18 * * 1-5 systemctl stop flowa-base</pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Sumário interativo -->
+        <section id="sumario" class="relative overflow-hidden rounded-[32px] border border-flowa-border/70 bg-flowa-card/70 p-8">
         <div class="absolute inset-0 opacity-40">
           <div class="absolute inset-0 bg-[radial-gradient(circle_at_left,_rgba(33,212,255,0.15),_transparent_55%)]"></div>
           <div class="absolute inset-0 bg-[radial-gradient(circle_at_right,_rgba(178,121,255,0.15),_transparent_60%)]"></div>
@@ -650,8 +1082,8 @@
           error: '',
           cloneFeedback: '',
           endpoints: {
-            infra: 'https://bitbucket.org/raafacardoso/infra-terraform/raw/main/README.md',
-            app: 'https://bitbucket.org/raafacardoso/app-dotnet-service/raw/main/README.md',
+            infra: 'https://bitbucket.org/flowa-base-teste-devops/infra-terraform/raw/main/README.md',
+            app: 'https://bitbucket.org/flowa-base-teste-devops/app-dotnet-service/raw/main/README.md',
           },
           content: {
             infra: 'Outputs do Terraform, árvore de módulos e práticas de segurança serão carregados aqui.',
@@ -693,10 +1125,27 @@
         }));
       });
 
+      function registerGuideLinks() {
+        const guideSection = document.getElementById('guias');
+        document.querySelectorAll('[data-topic]').forEach((link) => {
+          link.addEventListener('click', (event) => {
+            event.preventDefault();
+            const topic = link.getAttribute('data-topic');
+            if (topic) {
+              window.dispatchEvent(new CustomEvent('guides:set', { detail: topic }));
+            }
+            if (guideSection) {
+              guideSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          });
+        });
+      }
+
       document.addEventListener('DOMContentLoaded', () => {
         if (window.lucide) {
           window.lucide.createIcons();
         }
+        registerGuideLinks();
       });
     </script>
   </body>
